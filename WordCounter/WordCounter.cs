@@ -30,11 +30,11 @@ namespace WordCounter
         public Dictionary<string, int> CountWords()
         {
             var result = new Dictionary<string, int>();
-            if (_sentence == String.Empty)
+            if (String.IsNullOrEmpty(_sentence))
                 return result;
 
             var preprocessedString = _preprocessor.Process();
-            var words = preprocessedString.Split(' ');
+            var words = preprocessedString.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var word in words)
             {

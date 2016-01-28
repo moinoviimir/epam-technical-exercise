@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 
 namespace WordCounter
@@ -21,10 +22,12 @@ namespace WordCounter
         /// <returns>A lowercased sentence without punctuation or excess whitespaces.</returns>
         public string Process()
         {
+            if (String.IsNullOrEmpty(_sentence))
+                return String.Empty;
+
             var loweredString = _sentence.ToLower();
 
             var sb = new StringBuilder();
-            var lastCharToAppend = ' ';
             foreach (var c in loweredString)
             {
                 var charToAppend = c;
@@ -32,10 +35,7 @@ namespace WordCounter
                 if (Char.IsPunctuation(charToAppend))
                     charToAppend = ' ';
 
-                if (!Char.IsWhiteSpace(lastCharToAppend) || !Char.IsWhiteSpace(charToAppend))
-                    sb.Append(charToAppend);
-
-                lastCharToAppend = charToAppend;
+                sb.Append(charToAppend);
             }
 
             return sb.ToString().Trim();

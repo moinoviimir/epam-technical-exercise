@@ -16,6 +16,15 @@ namespace WordCounter.Tests
         }
 
         [Test]
+        public void ProcessReturnsAnEmptyStringOnANullSentence()
+        {
+            string sentence = null;
+            var cut = new SentencePreprocessor(sentence);
+
+            Assert.AreEqual(String.Empty, cut.Process());
+        }
+
+        [Test]
         public void ProcessDoesNotMangleASingleLowercaseWordWithoutPunctuation()
         {
             var sentence = "test";
@@ -39,7 +48,7 @@ namespace WordCounter.Tests
             var sentence = "?hello, world!";
             var cut = new SentencePreprocessor(sentence);
 
-            Assert.AreEqual("hello world", cut.Process());
+            Assert.AreEqual("hello  world", cut.Process());
         }
 
         [Test]
@@ -57,7 +66,7 @@ namespace WordCounter.Tests
             var sentence = "  hello  world  ";
             var cut = new SentencePreprocessor(sentence);
 
-            Assert.AreEqual("hello world", cut.Process());
+            Assert.AreEqual("hello  world", cut.Process());
         }
 
         [Test]
@@ -66,7 +75,7 @@ namespace WordCounter.Tests
             var sentence = "&Hello, World!";
             var cut = new SentencePreprocessor(sentence);
 
-            Assert.AreEqual("hello world", cut.Process());
+            Assert.AreEqual("hello  world", cut.Process());
         }
     }
 }

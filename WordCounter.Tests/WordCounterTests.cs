@@ -12,8 +12,19 @@ namespace WordCounter.Tests
         {
             var emptySentence = String.Empty;
             var cut = new WordCounter(emptySentence);
+            var expectedResult = new Dictionary<string, int>();
 
-            Assert.AreEqual(0, cut.CountWords().Count);
+            Assert.AreEqual(expectedResult, cut.CountWords());
+        }
+
+        [Test]
+        public void CountWordsReturnsAnEmptyDictionaryForNullInput()
+        {
+            string nullSentence = null;
+            var cut = new WordCounter(nullSentence);
+            var expectedResult = new Dictionary<string, int>();
+
+            Assert.AreEqual(expectedResult, cut.CountWords());
         }
 
         [Test]
@@ -47,6 +58,17 @@ namespace WordCounter.Tests
         public void CountWordsFindsADuplicateWordInATwoWordSentence()
         {
             var sentence = "hello hello";
+            var cut = new WordCounter(sentence);
+            var result = cut.CountWords();
+            var expectedResult = new Dictionary<string, int> {{"hello", 2}};
+
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void CountWordsFindsADuplicateWordInATwoWordSentenceWithDifferentCases()
+        {
+            var sentence = "hello Hello";
             var cut = new WordCounter(sentence);
             var result = cut.CountWords();
             var expectedResult = new Dictionary<string, int> {{"hello", 2}};
