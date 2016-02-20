@@ -88,6 +88,17 @@ namespace WordCounter.Tests
         }
 
         [Test]
+        public void ProcessHandlesASentenceWithWordsAndGarbledPunctuation()
+        {
+            var sentence = "hello, :;!;, world";
+            var cut = new WordCounter(sentence);
+            var result = cut.CountWords();
+            var expectedResult = new Dictionary<string, int> {{"hello", 1}, {"world", 1}};
+
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
         public void ClientProvidedExampleTest()
         {
             var sentence = "This is a statement, and so is this.";

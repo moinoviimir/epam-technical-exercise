@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using NUnit.Framework;
 
 namespace WordCounter.Tests
@@ -25,6 +26,15 @@ namespace WordCounter.Tests
         }
 
         [Test]
+        public void ProcessHandlesASentenceFullOfPunctuationMarksProperly()
+        {
+            string sentence = ",:;";
+            var cut = new SentencePreprocessor(sentence);
+
+            Assert.AreEqual(String.Empty, cut.Process());
+        }
+
+        [Test]
         public void ProcessDoesNotMangleASingleLowercaseWordWithoutPunctuation()
         {
             var sentence = "test";
@@ -37,6 +47,15 @@ namespace WordCounter.Tests
         public void ProcessMakesACapitalizedWordIntoLowercase()
         {
             var sentence = "Test";
+            var cut = new SentencePreprocessor(sentence);
+
+            Assert.AreEqual("test", cut.Process());
+        }
+
+        [Test]
+        public void ProcessHandlesUppercaseInput()
+        {
+            var sentence = "TEST";
             var cut = new SentencePreprocessor(sentence);
 
             Assert.AreEqual("test", cut.Process());
