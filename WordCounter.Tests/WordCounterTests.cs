@@ -35,7 +35,7 @@ namespace WordCounter.Tests
 
             Assert.AreEqual(1, cut.CountWords().Count);
         }
-        
+
         [Test]
         public void CountWordsFindsAWordInASingleWordSentenceWithPunctuation()
         {
@@ -65,10 +65,31 @@ namespace WordCounter.Tests
             Assert.AreEqual(expectedResult, result);
         }
 
+        public void CountWordsFindsADuplicateWordInATwoWordSentenceWithAmplePunctuation()
+        {
+            var sentence = "hello, !@#$%^&, hello";
+            var cut = new WordCounter(sentence);
+            var result = cut.CountWords();
+            var expectedResult = new Dictionary<string, int> {{"hello", 2}};
+
+            Assert.AreEqual(expectedResult, result);
+        }
+
         [Test]
         public void CountWordsFindsADuplicateWordInATwoWordSentenceWithDifferentCases()
         {
             var sentence = "hello Hello";
+            var cut = new WordCounter(sentence);
+            var result = cut.CountWords();
+            var expectedResult = new Dictionary<string, int> {{"hello", 2}};
+
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void CountWordsFindsADuplicateWordInATwoWordSentenceWhereAWordHasAnUppercaseLetterInTheMiddle()
+        {
+            var sentence = "hello heLlo";
             var cut = new WordCounter(sentence);
             var result = cut.CountWords();
             var expectedResult = new Dictionary<string, int> {{"hello", 2}};
@@ -90,7 +111,7 @@ namespace WordCounter.Tests
         [Test]
         public void ProcessHandlesASentenceWithWordsAndGarbledPunctuation()
         {
-            var sentence = "hello, :;!;, world";
+            var sentence = "hello, )(_!, world";
             var cut = new WordCounter(sentence);
             var result = cut.CountWords();
             var expectedResult = new Dictionary<string, int> {{"hello", 1}, {"world", 1}};
@@ -115,6 +136,24 @@ namespace WordCounter.Tests
                 {"so", 1}
             };
 
+
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void ProcessHandlesAReasonablyLargeSentenceOfManyCopiesOfASingleWordProperly()
+        {
+            // 15 in a line, 6 lines
+            var sentence = @"
+                hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello 
+                hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello 
+                hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello 
+                hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello 
+                hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello 
+                hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello";
+            var cut = new WordCounter(sentence);
+            var result = cut.CountWords();
+            var expectedResult = new Dictionary<string, int> {{"hello", 90}};
 
             Assert.AreEqual(expectedResult, result);
         }

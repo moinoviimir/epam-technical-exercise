@@ -34,7 +34,7 @@ namespace WordCounter
                 return result;
 
             var preprocessedString = _preprocessor.Process();
-            var words = preprocessedString.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+            var words = preprocessedString.Split(new char[] {' '});
 
             foreach (var word in words)
             {

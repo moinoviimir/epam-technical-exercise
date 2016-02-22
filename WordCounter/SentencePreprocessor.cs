@@ -28,6 +28,7 @@ namespace WordCounter
             var loweredString = _sentence.ToLower();
 
             var sb = new StringBuilder();
+            bool areHavingAWhitespaceStreak = false;
             foreach (var c in loweredString)
             {
                 var charToAppend = c;
@@ -35,7 +36,11 @@ namespace WordCounter
                 if (Char.IsPunctuation(charToAppend))
                     charToAppend = ' ';
 
-                sb.Append(charToAppend);
+                if (!(areHavingAWhitespaceStreak && Char.IsWhiteSpace(charToAppend)))
+                    sb.Append(charToAppend);
+
+                areHavingAWhitespaceStreak = Char.IsWhiteSpace(charToAppend);
+
             }
 
             return sb.ToString().Trim();
